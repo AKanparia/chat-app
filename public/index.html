@@ -7,11 +7,20 @@
   </head>
   <body>
     Chat App
+    <div id="msgs"></div>
     <form id="msgForm">
       <input name="message" type="text" placeholder="message" />
       <button>Send</button>
     </form>
     <button id="sendLocation">Send location</button>
+
+    <script id="msgTemplate" type="text/html">
+      <div>
+        <p>{{msg}}</p>
+      </div>
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>
   </body>
