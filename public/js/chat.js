@@ -16,6 +16,7 @@ const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }
 
 socket.on('message', (msg) => {
   const html = Mustache.render(msgTemplate, {
+    username: msg.username,
     msg: msg.text,
     createdAt: moment(msg.createdAt).format('h:mm a'),
   })
@@ -24,6 +25,7 @@ socket.on('message', (msg) => {
 
 socket.on('locationMsg', (msg) => {
   const html = Mustache.render(locationMsgTemplate, {
+    username: msg.username,
     url: msg.url,
     createdAt: moment(msg.createdAt).format('h:mm a'),
   })
@@ -32,9 +34,11 @@ socket.on('locationMsg', (msg) => {
 
 $msgForm.addEventListener('submit', (e) => {
   e.preventDefault()
+  const msg = e.target.elements.message.value
+  if (!msg) return $msgFormInput.focus()
+
   $msgFormBtn.setAttribute('disabled', 'disabled')
 
-  const msg = e.target.elements.message.value
   socket.emit('sendMessage', msg, (error) => {
     $msgFormBtn.removeAttribute('disabled')
     $msgFormInput.value = ''

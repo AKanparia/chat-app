@@ -13,8 +13,8 @@
       <div class="chat__main">
         <div id="msgs" class="chat__messages"></div>
         <div class="compose">
-          <form id="msgForm">
-            <input name="message" type="text" placeholder="message" />
+          <form id="msgForm" novalidate>
+            <input name="message" type="text" placeholder="message" required autocomplete="off" />
             <button>Send</button>
           </form>
           <button id="sendLocation">Send location</button>
@@ -25,7 +25,7 @@
     <script id="msgTemplate" type="text/html">
       <div class="message">
         <p>
-          <span class="message__name">Dummy name</span>
+          <span class="message__name">{{username}}</span>
           <span class="message__meta">{{createdAt}}</span>
         </p>
         <p>{{msg}}</p>
@@ -35,7 +35,7 @@
     <script id="locationMsgTemplate" type="text/html">
       <div>
         <p>
-          <span class="message__name">Dummy name</span>
+          <span class="message__name">{{username}}</span>
           <span class="message__meta">{{createdAt}}</span>
         </p>
         <p><a href="{{url}}" target="_blank">My Current Location</a></p>

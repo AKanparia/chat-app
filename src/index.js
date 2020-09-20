@@ -25,10 +25,10 @@ io.on('connection', (socket) => {
 
     socket.join(user.room)
 
-    socket.emit('message', generateMsg('Welcome!'))
+    socket.emit('message', generateMsg('ADMIN', `Welcome, ${user.username}!`))
     socket.broadcast
       .to(user.room)
-      .emit('message', generateMsg(`${user.username} has joined the chat.`))
+      .emit('message', generateMsg('ADMIN', `${user.username} has joined the chat.`))
     callback()
   })
 
@@ -40,19 +40,20 @@ io.on('connection', (socket) => {
       return callback('Profanity is not allowed!')
     }
 
-    io.to(user.room).emit('message', generateMsg(msg))
+    io.to(user.room).emit('message', generateMsg(user.username, msg))
     callback()
   })
 
   socket.on('sendLocation', ({ latitude, longitude }, callback) => {
     const user = getUser(socket.id)
-    io.to(user.room).emit('locationMsg', generateLocationMsg(latitude, longitude))
+    io.to(user.room).emit('locationMsg', generateLocationMsg(user.username, latitude, longitude))
     callback()
   })
 
   socket.on('disconnect', () => {
     const user = removeUser(socket.id)
-    if (user) io.to(user.room).emit('message', generateMsg(`${user.username} has left the chat`))
+    if (user)
+      io.to(user.room).emit('message', generateMsg('ADMIN', `${user.username} has left the chat`))
   })
 })
 
