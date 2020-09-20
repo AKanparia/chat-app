@@ -70,6 +70,8 @@ $sendLocationBtn.addEventListener('click', (e) => {
 })
 
 socket.emit('join', { username, room }, (error) => {
-  if (error) return console.log('Error occured')
-  console.log('Joined')
+  if (error) {
+    alert(error)
+    location.href = '/'
+  }
 })
